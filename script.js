@@ -120,6 +120,16 @@ function showNextQuestion(questionNumber) {
     document.getElementById(`question${questionNumber}`).classList.remove('hidden');
 }
 
+// Function to validate love meter and show question 3
+function validateAndShowQuestion3() {
+    const value = parseInt(loveMeter.value);
+    if (value >= 10000) {
+        showNextQuestion(3);
+    } else {
+        alert('Aww, you need to love me at least 10000%! Move that slider all the way! 💝✨');
+    }
+}
+
 // Function to move the "No" button when clicked
 function moveButton(button) {
     const x = Math.random() * (window.innerWidth - button.offsetWidth);
