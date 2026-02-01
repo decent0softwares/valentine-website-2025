@@ -27,10 +27,58 @@ const CONFIG = {
             noBtn: "No",                                               // Text for "No" button
             secretAnswer: "I don't like you, I love you! ❤️"           // Secret hover message
         },
+        emoji: {
+            text: "What emoji describes me best? 🤔",
+            type: "multipleChoice",
+            options: [
+                { text: "😇 An Angel", reaction: "Aww you're so sweet! 💕" },
+                { text: "🌟 A Star", reaction: "You think I shine bright! ✨" },
+                { text: "🎁 A Gift", reaction: "Best gift ever! 🎁💝" },
+                { text: "🍰 A Cupcake", reaction: "Sweet like a cupcake! 🧁" }
+            ]
+        },
         second: {
             text: "How much do you love me?",                          // For the love meter
             startText: "This much!",                                   // Text before the percentage
             nextBtn: "Next ❤️"                                         // Text for the next button
+        },
+        cuteness: {
+            text: "How cute am I? 🥰",
+            type: "numberInput",
+            placeholder: "Type a number... 💕",
+            min: 101,
+            errorMessage: "You need to think I'm at least 101% cute! Try a bigger number! 💝",
+            messages: {
+                low: "Come on, you can type higher than that! 😢",
+                medium: "Aww, that's sweet! 💕",
+                high: "You really think so?! 😍",
+                extreme: "OMG YOU THINK I'M THAT CUTE?! 🥰✨"
+            },
+            thresholds: {
+                low: 0,
+                medium: 101,
+                high: 501,
+                extreme: 1001
+            }
+        },
+        hugs: {
+            text: "How many hugs do you owe me? 🤗",
+            type: "numberInput",
+            placeholder: "Type a big number! 🤗",
+            min: 10000,
+            errorMessage: "You owe me at least 10,000 hugs! Think bigger! 🤗💝",
+            messages: {
+                low: "That's way too few! I need more hugs! 🥺",
+                medium: "Getting closer, but not enough! 💕",
+                high: "Now we're talking! 🤗✨",
+                extreme: "WOW! That's a lifetime of hugs! 🥰🤗🎉"
+            },
+            thresholds: {
+                low: 0,
+                medium: 1000,
+                high: 10000,
+                extreme: 100000
+            }
         },
         third: {
             text: "Will you be my Valentine on February 14th, 2026? 🌹", // The big question!
@@ -49,9 +97,24 @@ const CONFIG = {
 
     // Messages that appear after they say "Yes!"
     celebration: {
-        title: "Yay! I'm the luckiest person in the world! 🎉💝💖💝💓",
-        message: "Now come get your gift, a big warm hug and a huge kiss!",
-        emojis: "🎁💖🤗💝💋❤️💕"  // These will bounce around
+        type: "photoCollage",
+        photos: [
+            "images/pic1.JPG",
+            "images/pic2.JPG",
+            "images/pic3.JPG",
+            "images/pic4.JPG",
+            "images/pic5.JPG",
+            "images/pic6.JPG",
+            "images/pic7.JPG",
+            "images/pic8.JPG",
+            "images/pic9.JPG",
+            "images/pic10.JPG",
+            "images/pic11.JPG",
+            "images/pic12.JPG",
+            "images/love.png"
+        ],
+        fadeDelay: 300,  // ms between each photo
+        layout: "heart"  // heart-shaped arrangement
     },
 
     // Color scheme for the website

@@ -60,18 +60,27 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Set texts from config
     document.getElementById('valentineTitle').textContent = `${config.valentineName}, my love...`;
-    
+
     // Set first question texts
     document.getElementById('question1Text').textContent = config.questions.first.text;
     document.getElementById('yesBtn1').textContent = config.questions.first.yesBtn;
     document.getElementById('noBtn1').textContent = config.questions.first.noBtn;
     document.getElementById('secretAnswerBtn').textContent = config.questions.first.secretAnswer;
-    
+
+    // Set emoji question
+    setupEmojiQuestion();
+
     // Set second question texts
     document.getElementById('question2Text').textContent = config.questions.second.text;
     document.getElementById('startText').textContent = config.questions.second.startText;
     document.getElementById('nextBtn').textContent = config.questions.second.nextBtn;
-    
+
+    // Set cuteness question
+    setupNumberInputQuestion('cuteness');
+
+    // Set hugs question
+    setupNumberInputQuestion('hugs');
+
     // Set third question texts
     document.getElementById('question3Text').textContent = config.questions.third.text;
     document.getElementById('yesBtn3').textContent = config.questions.third.yesBtn;
@@ -120,13 +129,89 @@ function showNextQuestion(questionNumber) {
     document.getElementById(`question${questionNumber}`).classList.remove('hidden');
 }
 
-// Function to validate love meter and show question 3
-function validateAndShowQuestion3() {
+// Function to validate love meter and show next question
+function validateAndShowNextQuestion(currentQuestion, nextQuestion) {
     const value = parseInt(loveMeter.value);
     if (value >= 10000) {
-        showNextQuestion(3);
+        showNextQuestion(nextQuestion);
     } else {
         alert('Aww, you need to love me at least 10000%! Move that slider all the way! 💝✨');
+    }
+}
+
+// Setup emoji question
+function setupEmojiQuestion() {
+    const emojiConfig = config.questions.emoji;
+    document.getElementById('emojiQuestionText').textContent = emojiConfig.text;
+
+    const optionsContainer = document.getElementById('emojiOptions');
+    emojiConfig.options.forEach((option, index) => {
+        const button = document.createElement('button');
+        button.className = 'cute-btn emoji-option';
+        button.textContent = option.text;
+        button.onclick = () => handleEmojiChoice(option.reaction);
+        optionsContainer.appendChild(button);
+    });
+}
+
+// Handle emoji choice
+function handleEmojiChoice(reaction) {
+    const reactionEl = document.getElementById('emojiReaction');
+    reactionEl.textContent = reaction;
+    reactionEl.classList.remove('hidden');
+
+    setTimeout(() => {
+        reactionEl.classList.add('hidden');
+        showNextQuestion(2);
+    }, 2000);
+}
+
+// Setup number input questions
+function setupNumberInputQuestion(type) {
+    const questionConfig = config.questions[type];
+    const questionTextId = type + 'QuestionText';
+    const inputId = type + 'Input';
+
+    document.getElementById(questionTextId).textContent = questionConfig.text;
+    document.getElementById(inputId).placeholder = questionConfig.placeholder;
+
+    // Add input listener for dynamic messages
+    document.getElementById(inputId).addEventListener('input', () => {
+        updateNumberInputMessage(type);
+    });
+}
+
+// Update dynamic message for number inputs
+function updateNumberInputMessage(type) {
+    const questionConfig = config.questions[type];
+    const input = document.getElementById(type + 'Input');
+    const message = document.getElementById(type + 'Message');
+    const value = parseInt(input.value) || 0;
+
+    let messageText = '';
+    if (value >= questionConfig.thresholds.extreme) {
+        messageText = questionConfig.messages.extreme;
+    } else if (value >= questionConfig.thresholds.high) {
+        messageText = questionConfig.messages.high;
+    } else if (value >= questionConfig.thresholds.medium) {
+        messageText = questionConfig.messages.medium;
+    } else {
+        messageText = questionConfig.messages.low;
+    }
+
+    message.textContent = messageText;
+}
+
+// Validate number input and proceed
+function validateNumberInput(currentType, nextQuestion) {
+    const questionConfig = config.questions[currentType];
+    const input = document.getElementById(currentType + 'Input');
+    const value = parseInt(input.value) || 0;
+
+    if (value >= questionConfig.min) {
+        showNextQuestion(nextQuestion);
+    } else {
+        alert(questionConfig.errorMessage);
     }
 }
 
@@ -188,14 +273,54 @@ function celebrate() {
     document.querySelectorAll('.question-section').forEach(q => q.classList.add('hidden'));
     const celebration = document.getElementById('celebration');
     celebration.classList.remove('hidden');
-    
-    // Set celebration messages
-    document.getElementById('celebrationTitle').textContent = config.celebration.title;
-    document.getElementById('celebrationMessage').textContent = config.celebration.message;
-    document.getElementById('celebrationEmojis').textContent = config.celebration.emojis;
-    
+
     // Create heart explosion effect
     createHeartExplosion();
+
+    // Create photo collage if configured
+    if (config.celebration.type === 'photoCollage') {
+        createPhotoCollage();
+    }
+}
+
+// Create photo collage in heart shape
+function createPhotoCollage() {
+    const collageContainer = document.getElementById('photoCollage');
+    const photos = config.celebration.photos;
+
+    // Heart shape positions (percentage based for responsive)
+    const heartPositions = [
+        { top: 10, left: 35 },   // pic1 - top left
+        { top: 10, left: 55 },   // pic2 - top right
+        { top: 25, left: 25 },   // pic3
+        { top: 25, left: 45 },   // pic4
+        { top: 25, left: 65 },   // pic5
+        { top: 40, left: 20 },   // pic6
+        { top: 40, left: 35 },   // pic7
+        { top: 40, left: 50 },   // pic8
+        { top: 40, left: 65 },   // pic9
+        { top: 55, left: 30 },   // pic10
+        { top: 55, left: 50 },   // pic11
+        { top: 55, left: 65 },   // pic12
+        { top: 70, left: 45 }    // love.png - bottom center
+    ];
+
+    photos.forEach((photoSrc, index) => {
+        const img = document.createElement('img');
+        img.src = photoSrc;
+        img.className = 'collage-photo';
+        img.style.top = heartPositions[index].top + '%';
+        img.style.left = heartPositions[index].left + '%';
+
+        // Random rotation
+        const rotation = (Math.random() - 0.5) * 10; // -5 to +5 degrees
+        img.style.transform = `rotate(${rotation}deg)`;
+
+        // Delay for sequential fade-in
+        img.style.animationDelay = (index * config.celebration.fadeDelay) + 'ms';
+
+        collageContainer.appendChild(img);
+    });
 }
 
 // Create heart explosion animation
