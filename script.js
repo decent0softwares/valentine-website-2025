@@ -304,20 +304,20 @@ function createPhotoCollage() {
     const photos = config.celebration.photos;
 
     // Heart shape positions (percentage based for responsive)
+    // Designed to form a clear heart with 12 photos
     const heartPositions = [
-        { top: 10, left: 35 },   // pic1 - top left
-        { top: 10, left: 55 },   // pic2 - top right
-        { top: 25, left: 25 },   // pic3
-        { top: 25, left: 45 },   // pic4
-        { top: 25, left: 65 },   // pic5
-        { top: 40, left: 20 },   // pic6
-        { top: 40, left: 35 },   // pic7
-        { top: 40, left: 50 },   // pic8
-        { top: 40, left: 65 },   // pic9
-        { top: 55, left: 30 },   // pic10
-        { top: 55, left: 50 },   // pic11
-        { top: 55, left: 65 },   // pic12
-        { top: 70, left: 45 }    // love.png - bottom center
+        { top: 8, left: 25 },    // pic1 - top left lobe
+        { top: 8, left: 60 },    // pic2 - top right lobe
+        { top: 20, left: 15 },   // pic3 - left lobe outer
+        { top: 20, left: 32 },   // pic4 - left lobe inner
+        { top: 20, left: 53 },   // pic5 - right lobe inner
+        { top: 20, left: 70 },   // pic6 - right lobe outer
+        { top: 36, left: 25 },   // pic7 - middle left
+        { top: 36, left: 42.5 }, // pic8 - middle center
+        { top: 36, left: 60 },   // pic9 - middle right
+        { top: 52, left: 33 },   // pic10 - lower left
+        { top: 52, left: 52 },   // pic11 - lower right
+        { top: 68, left: 42.5 }  // pic12 - bottom point
     ];
 
     photos.forEach((photoSrc, index) => {

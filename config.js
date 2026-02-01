@@ -110,8 +110,7 @@ const CONFIG = {
             "images/pic9.JPG",
             "images/pic10.JPG",
             "images/pic11.JPG",
-            "images/pic12.JPG",
-            "images/love.png"
+            "images/pic12.JPG"
         ],
         fadeDelay: 300,  // ms between each photo
         layout: "heart"  // heart-shaped arrangement
