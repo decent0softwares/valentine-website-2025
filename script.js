@@ -126,7 +126,22 @@ function setRandomPosition(element) {
 // Function to show next question
 function showNextQuestion(questionNumber) {
     document.querySelectorAll('.question-section').forEach(q => q.classList.add('hidden'));
-    document.getElementById(`question${questionNumber}`).classList.remove('hidden');
+
+    // Handle both numbered (2, 3) and named ('emoji', 'cuteness', 'hugs') questions
+    let questionId;
+    if (typeof questionNumber === 'string') {
+        // Capitalize first letter for named questions
+        questionId = 'question' + questionNumber.charAt(0).toUpperCase() + questionNumber.slice(1);
+    } else {
+        questionId = `question${questionNumber}`;
+    }
+
+    const questionElement = document.getElementById(questionId);
+    if (questionElement) {
+        questionElement.classList.remove('hidden');
+    } else {
+        console.error('Question element not found:', questionId);
+    }
 }
 
 // Function to validate love meter and show next question
